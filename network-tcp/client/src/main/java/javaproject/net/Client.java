@@ -1,4 +1,4 @@
-package edu.javaproject.net;
+package javaproject.net;
 
 import java.io.*;
 import java.net.Socket;
