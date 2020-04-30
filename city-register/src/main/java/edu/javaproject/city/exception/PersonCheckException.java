@@ -1,7 +1,7 @@
 package edu.javaproject.city.exception;
 
-public class PersonCheckException extends Exception {
-
+public class PersonCheckException extends Exception
+{
     public PersonCheckException() {
     }
 

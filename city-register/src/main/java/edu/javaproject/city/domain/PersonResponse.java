@@ -1,7 +1,7 @@
 package edu.javaproject.city.domain;
 
-public class PersonResponse {
-
+public class PersonResponse
+{
     private boolean registered;
     private boolean temporal;
 
@@ -19,5 +19,13 @@ public class PersonResponse {
 
     public void setTemporal(boolean temporal) {
         this.temporal = temporal;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonResponse{" +
+                "registered=" + registered +
+                ", temporal=" + temporal +
+                '}';
     }
 }

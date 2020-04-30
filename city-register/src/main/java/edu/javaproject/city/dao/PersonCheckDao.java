@@ -6,71 +6,72 @@ import edu.javaproject.city.exception.PersonCheckException;
 
 import java.sql.*;
 
-public class PersonCheckDao {
-
-    public static final String SQL_REQUEST =
+public class PersonCheckDao
+{
+    private static final String SQL_REQUEST =
             "select temporal from cr_address_person ap " +
                     "inner join cr_person p on p.person_id = ap.person_id " +
                     "inner join cr_address a on a.address_id = ap.address_id " +
                     "where " +
-                    "CURRENT_DATE >= ap.start_date and (CURRENT_DATE <= ap.end_date OR ap.end_date is null) " +
-                    "and upper(p.sur_name) = upper(?) " +
-                    "and upper(p.given_name) = upper(?) " +
-                    "and upper(p.patronymic) = upper(?) " +
+                    "CURRENT_DATE >= ap.start_date and (CURRENT_DATE <= ap.end_date or ap.end_date is null)" +
+                    "and upper(p.sur_name) = upper(?)  " +
+                    "and upper(p.given_name) = upper(?)  " +
+                    "and upper(patronymic) = upper(?)  " +
                     "and p.date_of_birth = ? " +
-                    "and a.street_code = ? " +
-                    "and upper(a.building) = upper(?)";
+                    "and a.street_code = ?  " +
+                    "and upper(a.building) = upper(?)  ";
+
+    private ConnectionBuilder connectionBuilder;
+
+    public void setConnectionBuilder(ConnectionBuilder connectionBuilder) {
+        this.connectionBuilder = connectionBuilder;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return connectionBuilder.getConnection();
+    }
 
     public PersonResponse checkPerson(PersonRequest request) throws PersonCheckException {
         PersonResponse response = new PersonResponse();
 
         String sql = SQL_REQUEST;
         if (request.getExtension() != null) {
-            sql += " and upper(a.extension) = upper(?) ";
+            sql += "and upper(a.extension) = upper(?)  ";
         } else {
-            sql += " and extension is null ";
+            sql += "and extension is null ";
         }
-
         if (request.getApartment() != null) {
-            sql += " and upper(a.apartment) = upper(?) ";
+            sql += "and upper(a.apartment) = upper(?) ";
         } else {
-            sql += " and apartment is null; ";
+            sql += "and a.apartment is null ";
         }
 
-        try(Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
 
             int count = 1;
-            statement.setString(count++, request.getSurName());
-            statement.setString(count++, request.getGivenName());
-            statement.setString(count++, request.getPatronymic());
-            statement.setDate(count++, Date.valueOf(request.getDateOfBirth()));
-            statement.setInt(count++, request.getStreetCode());
-            statement.setString(count++, request.getBuilding());
+            stmt.setString(count++, request.getSurName());
+            stmt.setString(count++, request.getGivenName());
+            stmt.setString(count++, request.getPatronymic());
+            stmt.setDate(count++, java.sql.Date.valueOf(request.getDateOfBirth()));
+            stmt.setInt(count++, request.getStreetCode());
+            stmt.setString(count++, request.getBuilding());
             if (request.getExtension() != null) {
-                statement.setString(count++, request.getExtension());
+                stmt.setString(count++, request.getExtension());
             }
-
             if (request.getApartment() != null) {
-                statement.setString(count++, request.getApartment());
+                stmt.setString(count++, request.getApartment());
             }
 
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
                 response.setRegistered(true);
-                response.setTemporal(resultSet.getBoolean("temporal"));
+                response.setTemporal(rs.getBoolean("temporal"));
             }
-
-        } catch (SQLException exception) {
-            throw new PersonCheckException(exception);
+        } catch(SQLException ex) {
+            throw new PersonCheckException(ex);
         }
-        return response;
-    }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/city_register",
-                "postgres", "123456");
+        return response;
     }
 }

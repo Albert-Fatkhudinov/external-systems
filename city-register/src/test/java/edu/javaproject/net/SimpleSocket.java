@@ -7,22 +7,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-public class SimpleSocket {
-
+public class SimpleSocket
+{
     @Test
     public void simpleSocket() throws IOException {
+        Socket socket = new Socket("localhost", 8080);
 
-        Socket socket = new Socket("java-course.ru", 80);
+        InputStream is = socket.getInputStream();
+        OutputStream os = socket.getOutputStream();
 
-        InputStream inputStream = socket.getInputStream();
-        OutputStream outputStream = socket.getOutputStream();
-
-        String command = "GET /sitemap.xml HTTP/1.1\r\nHOST:java-course.ru\r\n\r\n";
-        outputStream.write(command.getBytes());
-        outputStream.flush();
+        String command = "GET / HTTP/1.1\r\nHost:java-course.ru\r\n\r\n";
+        os.write(command.getBytes());
+        os.flush();
 
         int c = 0;
-        while ((c = inputStream.read()) != -1) {
+        while ( (c = is.read()) != -1) {
             System.out.print((char)c);
         }
 
