@@ -16,6 +16,12 @@ public class PersonDao {
         namedQuery.setParameter("personId", 1L);
         return namedQuery.getResultList();
 
+    }
 
+    public Long addPerson(Person person) {
+
+        entityManager.persist(person);
+        entityManager.flush();
+        return person.getPersonId();
     }
 }
