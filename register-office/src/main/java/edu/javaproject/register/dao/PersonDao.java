@@ -2,23 +2,13 @@ package edu.javaproject.register.dao;
 
 import edu.javaproject.register.domain.Person;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 public class PersonDao {
 
+    @PersistenceContext
     private EntityManager entityManager;
-
-    public PersonDao() {
-
-        EntityManagerFactory factory
-                = Persistence.createEntityManagerFactory("persistence");
-        entityManager = factory.createEntityManager();
-
-    }
 
     public List<Person> findPersons() {
 
