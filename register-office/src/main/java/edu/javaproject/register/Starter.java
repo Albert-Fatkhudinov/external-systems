@@ -12,9 +12,9 @@ public class Starter {
                 new String[]{"springContext.xml"}
         );
 
-        MarriageController controller
-                = context.getBean("controller", MarriageController.class);
-
-        controller.findMarriageCertificate(new MarriageRequest());
+//        MarriageController controller
+//                = context.getBean("controller", MarriageController.class);
+//
+//        controller.findMarriageCertificate(new MarriageRequest());
     }
 }
