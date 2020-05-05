@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "ro_marriage_certificate")
+@NamedQuery(name = "MarriageCertificate.findByNum",
+        query = "SELECT mc FROM MarriageCertificate mc WHERE mc.number = :number")
 public class MarriageCertificate {
 
     @Id
