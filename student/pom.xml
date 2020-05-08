@@ -109,6 +109,13 @@
             <version>2.30.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -127,6 +134,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <outputDirectory>C:\apache-tomcat-9.0.34\webapps</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
