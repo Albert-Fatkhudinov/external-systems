@@ -11,7 +11,9 @@
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/classes/springContext.xml</param-value>
+        <param-value>
+            classpath:springContext.xml
+        </param-value>
     </context-param>
 
     <servlet>
