@@ -12,7 +12,7 @@ public class Faculty {
     private Long facultyId;
 
     @ManyToOne(cascade = {CascadeType.REFRESH},
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id")
     private University university;
 
