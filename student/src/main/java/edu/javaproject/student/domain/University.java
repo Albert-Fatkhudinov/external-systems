@@ -16,7 +16,7 @@ public class University {
     private String universityName;
 
     @OneToMany(cascade = {CascadeType.REFRESH},
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             mappedBy = "university")
     private List<Faculty> faculties;
 
